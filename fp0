@@ -23,7 +23,7 @@
 Сборка: Mix
 Форматирование: Mix format  
 Стиль написания: https://hexdocs.pm/elixir_style_guide/readme.html (Стандарт)
-Линтер
+Тестирование: ExUnit
 
 
 
