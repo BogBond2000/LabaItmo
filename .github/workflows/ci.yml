@@ -5,11 +5,17 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        elixir: ['1.15.7', '1.16.1']
+        otp: ['26.2', '25.3']
+    
     steps:
     - uses: actions/checkout@v4
     - uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.7'
+        elixir-version: ${{ matrix.elixir }}
+        otp-version: ${{ matrix.otp }}
     
     - run: mix deps.get
     - run: mix test
