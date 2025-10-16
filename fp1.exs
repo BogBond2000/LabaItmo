@@ -16,3 +16,6 @@ defmodule MyProject do
     fib_help(n-1,a+b,a)
   end
 end
+
+b = MyProject.fibonachi(100)
+IO.puts(b)
