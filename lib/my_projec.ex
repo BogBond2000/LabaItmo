@@ -49,7 +49,7 @@ defmodule MyProject do
     fib_even_sum_naive(limit, 1, 0)
   end
 
-  defp fib_even_sum_naive(limit, a, b) when a > limit, do: 0
+  defp fib_even_sum_naive(limit, a, _b) when a > limit, do: 0
 
   defp fib_even_sum_naive(limit, a, b) when rem(a, 2) == 0 do
     a + fib_even_sum_naive(limit, a + b, a)
