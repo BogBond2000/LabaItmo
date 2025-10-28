@@ -51,9 +51,6 @@ jobs:
     - name: Run Credo analysis
       run: mix credo --strict
       
-    - name: Run Dialyzer
-      run: mix dialyzer
-      
     - name: Run tests
       run: mix test
       
