@@ -1,21 +1,67 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
+    name: Run Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        elixir: ['1.15.7', '1.16.1']
-        otp: ['26.2', '25.3']
     
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: erlef/setup-beam@v1
-      with:
-        elixir-version: ${{ matrix.elixir }}
-        otp-version: ${{ matrix.otp }}
+    - uses: actions/checkout@v3
     
-    - run: mix deps.get
-    - run: mix test
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.14.0'
+        otp-version: '25.0'
+        
+    - name: Restore dependencies cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps
+          _build
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+        
+    - name: Install dependencies
+      run: mix deps.get
+      
+    - name: Check code format
+      run: mix format --check-formatted
+      
+    - name: Run Credo analysis
+      run: mix credo --strict
+      
+    - name: Run Dialyzer
+      run: mix dialyzer
+      
+    - name: Run tests
+      run: mix test
+      
+    - name: Run coverage
+      run: mix coveralls.html
+      
+    - name: Upload coverage to Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        file: cover/excoveralls.html
+        format: html
