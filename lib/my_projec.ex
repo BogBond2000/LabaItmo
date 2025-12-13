@@ -284,3 +284,4 @@ defmodule LazyTreeDict do
   def foldr(d, acc, f), do: LazyRedBlackTree.foldr(d.tree, acc, f)
   def stream(d), do: LazyRedBlackTree.to_stream(d.tree)
 end
+
