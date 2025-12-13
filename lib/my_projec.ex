@@ -40,7 +40,7 @@ defmodule LazyRedBlackTree do
 
     cond do
       key == n.key ->
-        %{n | thunk: thunk, value: nil, computed?: false}
+        node(key, thunk)
 
       key < n.key ->
         balance(%{n | left: do_insert(n.left, key, thunk)})
@@ -91,7 +91,7 @@ defmodule LazyRedBlackTree do
   def merge(
         tree1,
         tree2,
-        value_merge_func \\ fn _, v1, v2 -> (List.wrap(v1) ++ List.wrap(v2)) |> Enum.sort() end
+        value_merge_func \\ fn _, v1, v2 -> [v1, v2] |> Enum.uniq() |> Enum.sort() end
       ) do
     kv_pairs =
       (to_list(tree1) ++ to_list(tree2))
