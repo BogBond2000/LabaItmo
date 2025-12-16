@@ -19,7 +19,8 @@ defmodule MyProjec.MixProject do
   defp deps do
     [
       # Только необходимые зависимости
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:stream_data, "~> 0.6", only: [:dev, :test]}
     ]
   end
 end

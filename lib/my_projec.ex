@@ -40,7 +40,7 @@ defmodule LazyRedBlackTree do
 
     cond do
       key == n.key ->
-        node(key, thunk)
+        %{n | thunk: thunk, value: nil, computed?: false}
 
       key < n.key ->
         balance(%{n | left: do_insert(n.left, key, thunk)})
@@ -284,4 +284,3 @@ defmodule LazyTreeDict do
   def foldr(d, acc, f), do: LazyRedBlackTree.foldr(d.tree, acc, f)
   def stream(d), do: LazyRedBlackTree.to_stream(d.tree)
 end
-
