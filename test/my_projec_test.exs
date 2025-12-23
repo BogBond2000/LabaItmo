@@ -4,9 +4,6 @@ defmodule LazyRedBlackTreePBT do
 
   alias LazyRedBlackTree
 
-  #
-  # Генераторы
-  #
   defp kv_list do
   list_of({integer(), integer()}, max_length: 200)
   end
@@ -21,10 +18,6 @@ defmodule LazyRedBlackTreePBT do
   kv_list()
   |> map(fn kvs -> build_tree(kvs) end)
  end
-
-  #
-  # Свойства
-  #
 
   property "tree is always a valid red-black tree" do
     check all(kvs <- kv_list()) do
