@@ -4,11 +4,11 @@
 
 ---
 
-# 📘 Отчёт по коду `LazyRedBlackTree` 
+# Отчёт по коду `LazyRedBlackTree` 
 
 ---
 
-## 🔴 LazyRedBlackTree
+## LazyRedBlackTree
 
 ### `new/0`
 
