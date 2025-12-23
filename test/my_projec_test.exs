@@ -8,14 +8,19 @@ defmodule LazyRedBlackTreePBT do
   # Генераторы
   #
   defp kv_list do
-    list_of({integer(), integer()}, max_length: 200)
+  list_of({integer(), integer()}, max_length: 200)
   end
 
-  defp build_tree(kvs) do
-    Enum.reduce(kvs, LazyRedBlackTree.new(), fn {k, v}, acc ->
-      LazyRedBlackTree.insert(acc, k, v)
-    end)
-  end
+ defp build_tree(kvs) do
+  Enum.reduce(kvs, LazyRedBlackTree.new(), fn {k, v}, acc ->
+    LazyRedBlackTree.insert(acc, k, v)
+  end)
+ end
+
+ defp tree_gen do
+  kv_list()
+  |> map(fn kvs -> build_tree(kvs) end)
+ end
 
   #
   # Свойства
@@ -51,6 +56,44 @@ defmodule LazyRedBlackTreePBT do
         |> LazyRedBlackTree.insert(k, v)
 
       assert LazyRedBlackTree.get(tree, k) == v
+    end
+  end
+  property "merge has identity element (empty tree)" do
+  check all(tree <- tree_gen()) do
+    empty = LazyRedBlackTree.new()
+
+    assert LazyRedBlackTree.to_list(
+             LazyRedBlackTree.merge(empty, tree)
+           ) ==
+           LazyRedBlackTree.to_list(tree)
+
+    assert LazyRedBlackTree.to_list(
+             LazyRedBlackTree.merge(tree, empty)
+           ) ==
+           LazyRedBlackTree.to_list(tree)
+    end
+  end
+  property "merge is associative (monoid law)" do
+  check all(
+          t1 <- tree_gen(),
+          t2 <- tree_gen(),
+          t3 <- tree_gen()
+        ) do
+    left =
+      LazyRedBlackTree.merge(
+        LazyRedBlackTree.merge(t1, t2),
+        t3
+      )
+      |> LazyRedBlackTree.to_list()
+
+    right =
+      LazyRedBlackTree.merge(
+        t1,
+        LazyRedBlackTree.merge(t2, t3)
+      )
+      |> LazyRedBlackTree.to_list()
+
+    assert left == right
     end
   end
 
