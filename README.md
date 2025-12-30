@@ -398,7 +398,7 @@ cat data.txt | ./my_projec --linear --newton --step 0.5 | grep "newton"
 #### Пример 4: Несколько алгоритмов одновременно
 
 ```bash
-echo -e "0 0\n1 1\n2 2\n3 3" | ./my_projec --linear --lagrange --step 0.5
+echo  -e "0 0\n1 1\n2 2\n3 3" | ./my_projec --linear --lagrange --step 0.5
 ```
 
 **Вывод:**
