@@ -402,6 +402,7 @@ echo -e "0 0\n1 1\n2 2\n3 3" | ./my_projec --linear --lagrange --step 0.5
 ```
 
 **Вывод:**
+
 ```
 linear: 0.0 0.0
 lagrange: 0.0 0.0
