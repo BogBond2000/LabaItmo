@@ -73,7 +73,6 @@ defmodule Interpolation.Algorithms do
     result
   end
 
-  # Конечные разности (для отчета)
   def finite_differences(points) do
     n = length(points) - 1
     y_vals = Enum.map(points, fn {_, y} -> y end)
